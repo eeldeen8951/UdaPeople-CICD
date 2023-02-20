@@ -333,11 +333,7 @@ workflows:
       - scan-frontend:
           requires: [build-frontend]
       - notifyOnSuccess:
-          requires: 
-            - test-frontend
-            - test-backend
-            - scan-frontend
-            - scan-frontend
+          requires: [test-frontend,test-backend,scan-frontend,scan-frontend]
       # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       #     filters:
