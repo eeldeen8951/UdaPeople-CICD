@@ -2,13 +2,14 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@4.9.3
-  commands:
-    notifyOnFail:
-      steps:
-        -slack/notify:
-          event: fail
-          channel: project
-          template: fail_tag
+  
+commands:
+  notifyOnFail:
+    steps:
+      -slack/notify:
+        event: fail
+        channel: project
+        template: fail_tag
 
 
 # commands:
