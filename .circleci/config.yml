@@ -8,7 +8,7 @@ commands:
         steps:
         - slack/notify:
             event: fail
-            channel: cicd-pipeline
+            channel: project
             template: basic_fail_1
 
 # commands:
@@ -315,7 +315,7 @@ notify_on_success:
     steps:
     - slack/notify:
         event: pass
-        channel: cicd-pipeline
+        channel: project
         template: success_tagged_deployment_1
 
 workflows:
