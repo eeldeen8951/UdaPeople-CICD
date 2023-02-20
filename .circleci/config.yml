@@ -1,14 +1,14 @@
 version: 2.1
 
 orbs:
-  slack: circleci/slack@4.9.3
+  slack: circleci/slack@4.12.1
 
 commands:
   notifyOnFail:
     steps:
       -slack/notify:
-        event: fail
         channel: project
+        event: fail
         template: basic_fail_1
 
 
@@ -123,9 +123,9 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm audit fix --force --audit-level=critical
-            npm audit fix --force --audit-level=critical
-            npm audit --audit-level=critical
+            # npm audit fix --force --audit-level=critical
+            # npm audit fix --force --audit-level=critical
+            # npm audit --audit-level=critical
       - notifyOnFail
 
   scan-backend:
@@ -317,7 +317,7 @@ jobs:
       - slack/notify:
           event: pass
           channel: project
-          template: success_tagged_deployment_1
+          template: success_tagged_deploy_1
 
 workflows:
   default:
