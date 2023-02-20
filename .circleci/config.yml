@@ -4,13 +4,12 @@ orbs:
   slack: circleci/slack@4.12.1
 
 commands:
-  notifyOnFail:
-    steps:
-      -slack/notify:
-        channel: project
-        event: fail
-        template: basic_fail_1
-
+    notify_on_failure:
+        steps:
+        - slack/notify:
+            event: fail
+            channel: cicd-pipeline
+            template: basic_fail_1
 
 # commands:
 #   destroy-environment:
@@ -61,7 +60,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-dep
-      - notifyOnFail
+      - notify_on_failure
 
   build-backend:
     docker:
@@ -79,7 +78,7 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-dep
-      - notifyOnFail
+      - notify_on_failure
 
   test-frontend:
     docker:
@@ -94,7 +93,7 @@ jobs:
             cd frontend
             npm install
             npm test
-      - notifyOnFail
+      - notify_on_failure
 
   test-backend:
     docker:
@@ -109,11 +108,11 @@ jobs:
             cd backend
             npm install
             npm test
-      - notifyOnFail
+      - notify_on_failure
             
   scan-frontend:
     docker:
-      - image: cimg/node:13.8.0
+      - image: cimg/node:13.8.0 
     steps:
       - checkout
       - restore_cache:
@@ -126,7 +125,7 @@ jobs:
             # npm audit fix --force --audit-level=critical
             # npm audit fix --force --audit-level=critical
             # npm audit --audit-level=critical
-      - notifyOnFail
+      - notify_on_failure
 
   scan-backend:
     docker:
@@ -143,7 +142,7 @@ jobs:
             npm audit fix --force --audit-level=critical
             npm audit fix --force --audit-level=critical
             npm audit --audit-level=critical
-      - notifyOnFail
+      - notify_on_failure
 
 #   deploy-infrastructure:
 #     docker:
@@ -310,14 +309,14 @@ jobs:
 #               # your code here
 #             fi
 
-  notifyOnSuccess:
+notify_on_success:
     docker:
-      - image: cimg/node:13.8.0
+    - image: cimg/base:stable
     steps:
-      - slack/notify:
-          event: pass
-          channel: project
-          template: success_tagged_deploy_1 
+    - slack/notify:
+        event: pass
+        channel: cicd-pipeline
+        template: success_tagged_deployment_1
 
 workflows:
   default:
@@ -332,7 +331,7 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-      - notifyOnSuccess:
+      - notify_on_success:
           requires: [test-frontend,test-backend,scan-frontend,scan-frontend]
       # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
