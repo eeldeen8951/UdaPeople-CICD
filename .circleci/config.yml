@@ -315,9 +315,9 @@ jobs:
       - image: cimg/base
     steps:
       - slack/notify:
-        event: pass
-        channel: circleci
-        template: success tag
+          event: pass
+          channel: circleci
+          template: success tag
 
 workflows:
   default:
