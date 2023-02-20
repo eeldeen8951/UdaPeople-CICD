@@ -8,8 +8,8 @@ orbs:
       steps:
         -slack/notify:
           event: fail
-          channel: circleci
-          template: fail tag
+          channel: project
+          template: fail_tag
 
 
 # commands:
@@ -312,12 +312,12 @@ jobs:
 
   notifyOnSuccess:
     docker:
-      - image: cimg/base
+      - image: cimg/node:13.8.0
     steps:
       - slack/notify:
           event: pass
-          channel: circleci
-          template: success tag
+          channel: project
+          template: success-tag
 
 workflows:
   default:
